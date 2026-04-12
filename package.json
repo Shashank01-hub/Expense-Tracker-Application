@@ -1,11 +1,16 @@
 {
-  "name": "project01-backend",
+  "name": "project01-workspace",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "dev": "npm --prefix frontend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "start:backend": "npm --prefix backend run start",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint",
+    "preview": "npm --prefix frontend run preview"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
