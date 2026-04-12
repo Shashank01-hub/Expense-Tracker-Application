@@ -16,7 +16,10 @@ async function apiRequest(path, options = {}) {
   const payload = await response.json().catch(() => ({}))
 
   if (!response.ok) {
-    throw new Error(payload.message || 'Request failed')
+    const error = new Error(payload.message || 'Request failed')
+    error.status = response.status
+    error.data = payload
+    throw error
   }
 
   return payload
@@ -70,13 +73,10 @@ export function AuthProvider({ children }) {
   }, [token])
 
   const register = async (payload) => {
-    const data = await apiRequest('/api/auth/register', {
+    return apiRequest('/api/auth/register', {
       method: 'POST',
       body: JSON.stringify(payload),
     })
-
-    setToken(data.token)
-    setUser(data.user)
   }
 
   const login = async (payload) => {
@@ -87,6 +87,25 @@ export function AuthProvider({ children }) {
 
     setToken(data.token)
     setUser(data.user)
+  }
+
+  const verifyEmail = async (payload) => {
+    const data = await apiRequest('/api/auth/verify-email', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+
+    setToken(data.token)
+    setUser(data.user)
+
+    return data
+  }
+
+  const resendVerificationCode = async (payload) => {
+    return apiRequest('/api/auth/resend-verification-code', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
   }
 
   const logout = () => {
@@ -103,6 +122,8 @@ export function AuthProvider({ children }) {
       isAuthenticated: Boolean(token && user),
       register,
       login,
+      verifyEmail,
+      resendVerificationCode,
       logout,
     }),
     [token, user, loading],
