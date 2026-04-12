@@ -115,6 +115,7 @@ router.post('/users', authRequired, adminOnly, async (req, res) => {
       email: email.toLowerCase().trim(),
       password: hashedPassword,
       role,
+      isEmailVerified: true,
     })
 
     return res.status(201).json({

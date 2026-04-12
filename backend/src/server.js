@@ -8,7 +8,6 @@ import { connectDatabase } from './config/db.js'
 import adminRoutes from './routes/adminRoutes.js'
 import authRoutes from './routes/authRoutes.js'
 import transactionRoutes from './routes/transactionRoutes.js'
-import { seedDatabase } from './seed.js'
 
 dns.setServers(['8.8.8.8', '8.8.4.4'])
 dns.setDefaultResultOrder('ipv4first')
@@ -69,10 +68,6 @@ app.use((error, _, res, __) => {
 async function startServer() {
   try {
     await connectDatabase()
-
-    if (process.env.SEED_ON_START === 'true') {
-      await seedDatabase()
-    }
 
     app.listen(port, () => {
       console.log(`Backend running on http://localhost:${port}`)
