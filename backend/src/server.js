@@ -1,4 +1,6 @@
 import dns from 'node:dns'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
@@ -12,7 +14,9 @@ import transactionRoutes from './routes/transactionRoutes.js'
 dns.setServers(['8.8.8.8', '8.8.4.4'])
 dns.setDefaultResultOrder('ipv4first')
 
-dotenv.config()
+const currentDir = path.dirname(fileURLToPath(import.meta.url))
+const backendEnvPath = path.resolve(currentDir, '../.env')
+dotenv.config({ path: backendEnvPath })
 
 const app = express()
 const port = Number(process.env.PORT) || 5000
