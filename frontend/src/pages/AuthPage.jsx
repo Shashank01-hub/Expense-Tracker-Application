@@ -5,6 +5,7 @@ const initialRegisterState = {
   name: '',
   email: '',
   password: '',
+  confirmPassword: '',   // ✅ added
   adminInviteCode: '',
 }
 
@@ -32,6 +33,10 @@ export default function AuthPage() {
     event.preventDefault()
     setError('')
     setMessage('')
+    if (registerForm.password !== registerForm.confirmPassword) {
+  setError("Passwords do not match")
+  return
+}
     setIsSubmitting(true)
 
     try {
@@ -240,10 +245,20 @@ export default function AuthPage() {
               value={registerForm.password}
               onChange={(event) => setRegisterForm((prev) => ({ ...prev, password: event.target.value }))}
               className="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none ring-cyan-200 transition focus:ring"
-              placeholder="Password (min 6 chars)"
+              placeholder="New Password (min 6 chars)"
               minLength={6}
               required
             />
+           <input
+  type="password"
+  value={registerForm.confirmPassword}
+  onChange={(event) =>
+    setRegisterForm((prev) => ({ ...prev, confirmPassword: event.target.value }))
+  }
+  className="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none ring-cyan-200 transition focus:ring mt-1"
+  placeholder="Confirm Password"
+  required
+/>
             <input
               type="text"
               value={registerForm.adminInviteCode}
