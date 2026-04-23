@@ -28,7 +28,7 @@ export default function AuthPage() {
   const [loginForm, setLoginForm] = useState(initialLoginState)
   const [verifyForm, setVerifyForm] = useState(initialVerifyState)
   const [verificationEmail, setVerificationEmail] = useState('')
-
+  const [showPassword, setShowPassword] = useState(false)
   const handleRegisterSubmit = async (event) => {
     event.preventDefault()
     setError('')
@@ -241,7 +241,7 @@ export default function AuthPage() {
               required
             />
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={registerForm.password}
               onChange={(event) => setRegisterForm((prev) => ({ ...prev, password: event.target.value }))}
               className="w-full rounded-xl border border-slate-200 px-3 py-2 outline-none ring-cyan-200 transition focus:ring"
@@ -250,7 +250,7 @@ export default function AuthPage() {
               required
             />
            <input
-  type="password"
+  type={showPassword ? "text" : "password"}
   value={registerForm.confirmPassword}
   onChange={(event) =>
     setRegisterForm((prev) => ({ ...prev, confirmPassword: event.target.value }))
@@ -259,6 +259,13 @@ export default function AuthPage() {
   placeholder="Confirm Password"
   required
 />
+<button
+  type="button"
+  onClick={() => setShowPassword(!showPassword)}
+  className="text-sm text-cyan-600"
+>
+  {showPassword ? "Hide Password" : "Show Password"}
+</button>
             <input
               type="text"
               value={registerForm.adminInviteCode}
